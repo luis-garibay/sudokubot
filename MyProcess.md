@@ -8,6 +8,7 @@ If I'm organizing data this way, I'm going to need functions to convert an index
 After all of the conversion functions have been written, the functions to actually solve the puzzles must be created. I'll start with the operations that I believe to be simpler to describe with logical operations. The first two being a process of elimination in each row and column on the board by checking for known or given numbers in the column or row. Eventually I may choose to combine these functions, but for simplicity of organization, I'm going to write them out as separate functions first (they should essentially be the same function with a few words replaced). Then the more complex operations, such as the case wherein a number is only possible in a particular group in one of its rows. In that case, all other cells in that row (outside of that group) will have that number eliminated as a possibility.
 
 # Program Flow Pseudocode
+```
 record all possible answers for each cell
 while unsolved
   eliminate possibilities according to known values
@@ -15,3 +16,4 @@ while unsolved
     remove that number as a possibility for every cell outside of the group and in the same row/column
   if there is a column, row, or group where a number can only exist in one of it's cells, then
     write that number as the answer for that cell
+```
