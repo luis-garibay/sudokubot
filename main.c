@@ -45,9 +45,62 @@ int main(int argc, const char * argv[]) {
 	};
 
 	Board *b;
+	int row, col, num;
 
 	b = CreateBoard(given_board); // initialize board
 
+	// for each unknown cell
+	//  for 1 - 9
+	//   if the # is not in the row, col, or group
+	//    add # to cell possible values
+	for (row = 0; row < 9; row++) {
+		for (col = 0; col < 9; col++) {
+			if (isCellKnown(b, row, col) == TRUE)
+				continue;
+
+			for (num = 1; num <= 9; num++) {
+				if (checkRow(b, row, col, num)
+					&& checkCol(b, row, col, num)
+					&& checkGrp(b, row, col, num)) {
+					
+					addCellPossible(b, row, col, num);
+				}
+			}
+		}
+	}
+
+	// while not solved
+	// check for lone possibilities
+	// then eliminate possibilities
+	while (!isSolved(b)) {
+		// for each cell
+		//  if there is 1 possibility
+		//   set as cells value
+		for (col = 0; col < 9; col++) {
+			for (row = 0; row < 9; row++) {
+				if (getNumPossible(b, row, col) == 1) {
+					setCell(b, row, col, getFirstPossible(b, row, col));
+				}
+			}
+		}
+
+		// eliminate possibilities
+		for (col = 0; col < 9; col++) {
+			for (row = 0; row < 9; row++) {
+				if (isCellKnown(b, row, col) == TRUE)
+					continue;
+
+				for (num = 1; num <= 9; num++) {
+					if (!checkRow(b, row, col, num)
+						|| !checkCol(b, row, col, num)
+						|| !checkGrp(b, row, col, num)) {
+
+						
+					}
+				}
+			}
+		}
+	}
 
 	return 0;
 }

@@ -18,6 +18,7 @@ Set *CreateSet(int N);
 void DeleteSet(Set *S);
 int  isEmptySet(Set *S);
 int  AddToSet(Set *S, SetElementType e);
+int  RemoveFromSet(Set *S, SetElementType e);
 int  isElementInSet(Set *S, SetElementType e);
 
 #endif
