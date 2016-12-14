@@ -1,11 +1,20 @@
+<<<<<<< HEAD
 #include <stdio.h>
+=======
+>>>>>>> b3a420814834502b3a081728314e704507b57fe3
 #include <assert.h>
 
 #include "board.h"
 #include "boolean.h"
+<<<<<<< HEAD
 #include "list.h"
 
 #define rowCol2Index(r, c) (9 * r + c)
+=======
+#include "queue.h"
+
+#define rowCol2Index(r, c) (9 * r - 9 + c)
+>>>>>>> b3a420814834502b3a081728314e704507b57fe3
 
 Board *createBoard(int *initBoard) {
 	Board *board = NULL;
@@ -21,9 +30,14 @@ Board *createBoard(int *initBoard) {
 				setCell(board, row, col, initBoard[rowCol2Index(row, col)]);
 				board->cells[row][col].possibleValues = NULL;
 			} else {
+<<<<<<< HEAD
 				board->cells[row][col].value = 0;
 				board->cells[row][col].known = FALSE;
 				board->cells[row][col].possibleValues = createList();
+=======
+				board->cells[row][col].known = FALSE;
+				board->cells[row][col].possibleValues = createQueue(9);
+>>>>>>> b3a420814834502b3a081728314e704507b57fe3
 			}
 		}
 	}
@@ -44,25 +58,41 @@ int getCellValue(Board *board, int row, int col) {
 }
 
 void addCellPossible(Board *board, int row, int col, int n) {
+<<<<<<< HEAD
 	listInsert(board->cells[row][col].possibleValues, n);
 }
 
 void removeCellPossible(Board *board, int row, int col, int n) {
 	listRemoveValue(board->cells[row][col].possibleValues, n);
+=======
+	enqueue(board->cells[row][col].possibleValues, n);
+}
+
+void removeCellPossible(Board *board, int row, int col, int n) {
+	dequeueVal(board->cells[row][col].possibleValues, n);
+>>>>>>> b3a420814834502b3a081728314e704507b57fe3
 }
 
 int getNumPossible(Board *board, int row, int col) {
 	if (board->cells[row][col].possibleValues == NULL)
 		return -1;
 
+<<<<<<< HEAD
 	return board->cells[row][col].possibleValues->elemcount;
+=======
+	return board->cells[row][col].possibleValues->numElements;
+>>>>>>> b3a420814834502b3a081728314e704507b57fe3
 }
 
 int getFirstPossible(Board *board, int row, int col) {
 	if (board->cells[row][col].possibleValues == NULL)
 		return -1;
 
+<<<<<<< HEAD
 	return listHeadValue(board->cells[row][col].possibleValues);
+=======
+	return dequeue(board->cells[row][col].possibleValues);
+>>>>>>> b3a420814834502b3a081728314e704507b57fe3
 }
 
 Boolean isCellKnown(Board *board, int row, int col) {
@@ -100,7 +130,11 @@ Boolean checkCol(Board *board, int row, int col, int n) {
 }
 
 Boolean checkGrp(Board *board, int row, int col, int n) {
+<<<<<<< HEAD
 	int rc2g[9][9] = {
+=======
+	int rc2g[][] = {
+>>>>>>> b3a420814834502b3a081728314e704507b57fe3
 		{1,1,1, 2,2,2, 3,3,3},
 		{1,1,1, 2,2,2, 3,3,3},
 		{1,1,1, 2,2,2, 3,3,3},
@@ -203,12 +237,17 @@ void deleteBoard(Board *board) {
 			if (board->cells[row][col].possibleValues == NULL)
 				continue;
 
+<<<<<<< HEAD
 			deleteList(board->cells[row][col].possibleValues);
+=======
+			deleteQueue(board->cells[row][col].possibleValues);
+>>>>>>> b3a420814834502b3a081728314e704507b57fe3
 		}
 	}
 
 	wFree(board);
 }
+<<<<<<< HEAD
 
 void printBoard(Board *board) {
 	int row, col;
@@ -227,3 +266,5 @@ void printBoard(Board *board) {
 			printf("\n");
 	}
 }
+=======
+>>>>>>> b3a420814834502b3a081728314e704507b57fe3

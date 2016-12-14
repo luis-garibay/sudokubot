@@ -7,6 +7,14 @@ If I'm organizing data this way, I'm going to need functions to convert an index
 
 After all of the conversion functions have been written, the functions to actually solve the puzzles must be created. I'll start with the operations that I believe to be simpler to describe with logical operations. The first two being a process of elimination in each row and column on the board by checking for known or given numbers in the column or row. Eventually I may choose to combine these functions, but for simplicity of organization, I'm going to write them out as separate functions first (they should essentially be the same function with a few words replaced). Then the more complex operations, such as the case wherein a number is only possible in a particular group in one of its rows. In that case, all other cells in that row (outside of that group) will have that number eliminated as a possibility.
 
+-------
+
+I'm going to change my approach a bit. I want to start off with as simple an implementation as possible. Meaning, data structures and algorithms that are fairly easy to follow.
+
+Converting between indexes, row/column pairs, and groups, etc. was just too tedious.
+
+The 'board' data structure will be a 2D array of 'cell' structures. Each 'cell' structure will have some properties. For example, one property will be the boolean value for whether or not the cell's true value has been solved or given. Another one of the properties of each 'cell structure' will be a set of possible values (if its true value hasn't been found yet).
+
 # Program Flow Pseudocode
 ```
 record all possible answers for each cell
