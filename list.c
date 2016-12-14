@@ -1,5 +1,6 @@
 #include "list.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "mem_wrap.h"
@@ -120,4 +121,15 @@ void deleteList(List *list) {
 	deleteListHelper(list->head);
 
 	wFree(list);
+}
+
+void printList(List *list) {
+	Node *cur = list->head;
+
+	if (cur != NULL)
+		printf("%d", cur->value);
+
+	while (cur != NULL) {
+		printf(",%d", cur->value);
+	}
 }

@@ -25,4 +25,6 @@ int listHeadValue(List *list);
 int listTailValue(List *list);
 void deleteList(List *list);
 
+void printList(List *list);
+
 #endif

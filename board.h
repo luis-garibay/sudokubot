@@ -2,21 +2,13 @@
 #define __BOARD__
 
 #include "boolean.h"
-<<<<<<< HEAD
 #include "list.h"
-=======
-#include "queue.h"
->>>>>>> b3a420814834502b3a081728314e704507b57fe3
 #include "mem_wrap.h"
 
 typedef struct _Cell {
 	int value;
 	Boolean known; // has this cell been solved/given?
-<<<<<<< HEAD
 	List *possibleValues; // values that might belong in this cell
-=======
-	Queue *possibleValues; // values that might belong in this cell
->>>>>>> b3a420814834502b3a081728314e704507b57fe3
 } Cell;
 
 typedef struct _Board {
@@ -37,9 +29,7 @@ Boolean checkGrp(Board *board, int row, int col, int n);
 Boolean isSolved(Board *board);
 void deleteBoard(Board *board);
 
-<<<<<<< HEAD
 void printBoard(Board *board);
+void printPossible(Board *board);
 
-=======
->>>>>>> b3a420814834502b3a081728314e704507b57fe3
 #endif

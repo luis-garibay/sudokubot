@@ -6,7 +6,7 @@
 //
 
 #include <stdio.h>
-#include "set.h"
+#include "list.h"
 #include "boolean.h"
 #include "board.h"
 
@@ -33,11 +33,7 @@
 // board navigation (converting row/column to index in array OR getting group from row/column)
 
 int main(int argc, const char * argv[]) {
-<<<<<<< HEAD
 	int given_board[] = {
-=======
-	unsigned given_board[] = {
->>>>>>> b3a420814834502b3a081728314e704507b57fe3
 		0,2,0, 0,0,0, 0,0,7,
 		0,0,0, 0,8,6, 9,0,2,
 		0,8,9, 0,2,0, 0,0,6,
@@ -54,16 +50,12 @@ int main(int argc, const char * argv[]) {
 	Board *b;
 	int row, col, num;
 
-<<<<<<< HEAD
 	b = createBoard(given_board); // initialize board
 
 	printf("OG SETUP:\n");
 	printf("###################\n\n");
 	printBoard(b);
 	printf("###################\n");
-=======
-	b = CreateBoard(given_board); // initialize board
->>>>>>> b3a420814834502b3a081728314e704507b57fe3
 
 	// for each unknown cell
 	//  for 1 - 9
@@ -97,7 +89,6 @@ int main(int argc, const char * argv[]) {
 				if (getNumPossible(b, row, col) == 1) {
 					setCell(b, row, col, getFirstPossible(b, row, col));
 				}
-<<<<<<< HEAD
 			}
 		}
 
@@ -130,28 +121,6 @@ int main(int argc, const char * argv[]) {
 	wMemStats();
 
 	deleteBoard(b);
-=======
-			}
-		}
-
-		// eliminate possibilities
-		for (col = 0; col < 9; col++) {
-			for (row = 0; row < 9; row++) {
-				if (isCellKnown(b, row, col) == TRUE)
-					continue;
-
-				for (num = 1; num <= 9; num++) {
-					if (!checkRow(b, row, col, num)
-						|| !checkCol(b, row, col, num)
-						|| !checkGrp(b, row, col, num)) {
-
-						
-					}
-				}
-			}
-		}
-	}
-
->>>>>>> b3a420814834502b3a081728314e704507b57fe3
+	
 	return 0;
 }
