@@ -10,9 +10,6 @@
 #include "boolean.h"
 #include "board.h"
 
-#include "boolean.h"
-#include "board.h"
-
 //	;	First operation: Record possibilities
 //	For each unknown cell
 //		For each number 1-9
@@ -34,28 +31,24 @@
 
 int main(int argc, const char * argv[]) {
 	int given_board[] = {
-		0,2,0, 0,0,0, 0,0,7,
-		0,0,0, 0,8,6, 9,0,2,
-		0,8,9, 0,2,0, 0,0,6,
+		0,3,0, 0,0,0, 4,0,7,
+		1,0,8, 0,5,0, 0,0,0,
+		0,0,0, 0,0,2, 0,9,0,
 
-		0,5,0, 0,0,4, 7,0,3,
-		7,0,0, 0,0,0, 0,0,5,
-		4,0,6, 5,0,0, 0,1,0,
+		0,0,6, 5,1,0, 2,4,0,
+		0,0,0, 0,0,0, 0,0,0,
+		0,4,2, 0,7,9, 3,0,0,
 
-		9,0,0, 0,7,0, 3,8,0,
-		1,0,4, 8,6,0, 0,0,0,
-		2,0,0, 0,0,0, 0,7,0,
+		0,1,0, 2,0,0, 0,0,0,
+		0,0,0, 0,8,0, 1,0,4,
+		8,0,5, 0,0,0, 0,3,0,
 	};
 
 	Board *b;
 	int row, col, num;
+	Node *possible;
 
 	b = createBoard(given_board); // initialize board
-
-	printf("OG SETUP:\n");
-	printf("###################\n\n");
-	printBoard(b);
-	printf("###################\n");
 
 	// for each unknown cell
 	//  for 1 - 9
@@ -81,6 +74,13 @@ int main(int argc, const char * argv[]) {
 	// check for lone possibilities
 	// then eliminate possibilities
 	while (!isSolved(b)) {
+		printf("#########################\n");
+		printBoard(b);
+		printf("#########################\n");
+		printf("#########################\n");
+		printPossible(b);
+		printf("#########################\n");
+
 		// for each cell
 		//  if there is 1 possibility
 		//   set as cells value
@@ -92,7 +92,27 @@ int main(int argc, const char * argv[]) {
 			}
 		}
 
-		// eliminate possibilities
+		// if there is one cell in a row, column, or group with
+		//  a certain possibility, then set that cell to that value
+		for (row = 0; row < 9; row++) {
+			for (col = 0; col < 9; col++) {
+				possible = getPossibilities(b, row, col);
+
+				while (possible != NULL) {
+					if (isRowLonePossible(b, row, col, possible->value)
+						|| isColLonePossible(b, row, col, possible->value)
+						|| isGrpLonePossible(b, row, col, possible->value)) {
+						setCell(b, row, col, possible->value);
+						break;
+					}
+
+					possible = possible->next;
+				}
+			}
+		}
+
+		// eliminate possibilities if number exists
+		//  in the same row, column, or group
 		for (col = 0; col < 9; col++) {
 			for (row = 0; row < 9; row++) {
 				if (isCellKnown(b, row, col) == TRUE)
@@ -108,10 +128,6 @@ int main(int argc, const char * argv[]) {
 				}
 			}
 		}
-
-		printf("\n###################\n\n");
-		printBoard(b);
-		printf("###################\n");
 	}
 
 	printBoard(b);

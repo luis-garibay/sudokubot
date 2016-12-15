@@ -51,6 +51,13 @@ void removeCellPossible(Board *board, int row, int col, int n) {
 	listRemoveValue(board->cells[row][col].possibleValues, n);
 }
 
+Node *getPossibilities(Board *board, int row, int col) {
+	if (board->cells[row][col].possibleValues == NULL)
+		return NULL;
+
+	return board->cells[row][col].possibleValues->head;
+}
+
 int getNumPossible(Board *board, int row, int col) {
 	if (board->cells[row][col].possibleValues == NULL)
 		return -1;
@@ -182,6 +189,119 @@ Boolean checkGrp(Board *board, int row, int col, int n) {
 	return TRUE;
 }
 
+Boolean isRowLonePossible(Board *board, int row, int col, int n) {
+	int c;
+
+	for (c = 0; c < 9; c++) {
+		if (c == col)
+			continue;
+
+		if (board->cells[row][c].possibleValues != NULL && isValueInList(board->cells[row][c].possibleValues, n) == TRUE) {
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
+Boolean isColLonePossible(Board *board, int row, int col, int n) {
+	int r;
+
+	for (r = 0; r < 9; r++) {
+		if (r == row)
+			continue;
+
+		if (board->cells[r][col].possibleValues != NULL && isValueInList(board->cells[r][col].possibleValues, n) == TRUE) {
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
+Boolean isGrpLonePossible(Board *board, int row, int col, int n) {
+	int rc2g[9][9] = {
+		{1,1,1, 2,2,2, 3,3,3},
+		{1,1,1, 2,2,2, 3,3,3},
+		{1,1,1, 2,2,2, 3,3,3},
+
+		{4,4,4, 5,5,5, 6,6,6},
+		{4,4,4, 5,5,5, 6,6,6},
+		{4,4,4, 5,5,5, 6,6,6},
+
+		{7,7,7, 8,8,8, 9,9,9},
+		{7,7,7, 8,8,8, 9,9,9},
+		{7,7,7, 8,8,8, 9,9,9}
+	};
+
+	int beginCol, endCol,
+		beginRow, endRow,
+		i, j;
+
+	// based on position in 3x3 group,
+	// choose beginning and end of for-
+	// loop range
+	
+	// determine column range
+	switch (rc2g[row][col]) {
+	case 1:
+		beginCol = 0; endCol = 2;
+		beginRow = 0; endRow = 2;
+		break;
+	case 2:
+		beginCol = 3; endCol = 5;
+		beginRow = 0; endRow = 2;
+		break;
+
+	case 3:
+		beginCol = 6; endCol = 8;
+		beginRow = 0; endRow = 2;
+		break;
+
+	case 4:
+		beginCol = 0; endCol = 2;
+		beginRow = 3; endRow = 5;
+		break;
+
+	case 5:
+		beginCol = 3; endCol = 5;
+		beginRow = 3; endRow = 5;
+		break;
+
+	case 6:
+		beginCol = 6; endCol = 8;
+		beginRow = 3; endRow = 5;
+		break;
+
+	case 7:
+		beginCol = 0; endCol = 2;
+		beginRow = 6; endRow = 8;
+		break;
+
+	case 8:
+		beginCol = 3; endCol = 5;
+		beginRow = 6; endRow = 8;
+		break;
+
+	case 9:
+		beginCol = 6; endCol = 8;
+		beginRow = 6; endRow = 8;
+		break;
+	}
+
+	for (i = beginCol; i <= endCol; i++) {
+		for (j = beginRow; j <= endRow; j++) {
+			if (i == col && j == row)
+				continue;
+
+			if (board->cells[j][i].possibleValues != NULL && isValueInList(board->cells[j][i].possibleValues, n) == TRUE)
+				return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
 Boolean isSolved(Board *board) {
 	int row, col;
 
@@ -229,11 +349,26 @@ void printBoard(Board *board) {
 }
 
 void printPossible(Board *board) {
-	int row, col;
+	Cell *cell;
+	int row, col, num;
 
 	for (row = 0; row < 9; row++) {
 		for (col = 0; col < 9; col++) {
-			printf("%d ", board->cells[row][col].value);
+			cell = &(board->cells[row][col]);
+
+			// if cell is solved, no need to print possibilities
+			if (isCellKnown(board, row, col) == TRUE)
+				printf("--KNOWN--");
+			else {
+				for (num = 1; num <= 9; num++) {
+					if (isValueInList(board->cells[row][col].possibleValues, num) == TRUE)
+						printf("%d", num);
+					else
+						printf("-");
+				}
+			}
+
+			printf(" ");
 
 			if (col % 3 == 2)
 				printf(" ");
