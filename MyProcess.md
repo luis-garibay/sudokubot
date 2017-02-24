@@ -15,6 +15,10 @@ Converting between indexes, row/column pairs, and groups, etc. was just too tedi
 
 The 'board' data structure will be a 2D array of 'cell' structures. Each 'cell' structure will have some properties. For example, one property will be the boolean value for whether or not the cell's true value has been solved or given. Another one of the properties of each 'cell structure' will be a set of possible values (if its true value hasn't been found yet).
 
+-------
+
+A lot of code is dedicated to looping through the board's groups, rows, and columns. So, I think it may make the code a bit simpler if I link cells together. This way the next cell in the row can be retrieved by using something like, "currentCell->nextCellInRow" instead of looping through an array. However, storing all of the extra pointers would take a bit more memory.
+
 # Program Flow Pseudocode
 ```
 record all possible answers for each cell
