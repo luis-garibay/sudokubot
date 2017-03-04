@@ -58,6 +58,7 @@ void listRemoveValue(List *list, int value) {
 	if (list->head->value == value) {
 		cur = list->head;
 		list->head = list->head->next;
+		
 		wFree(cur);
 		list->elemcount--;
 		return;
@@ -66,6 +67,7 @@ void listRemoveValue(List *list, int value) {
 	while (cur != NULL) {
 		if (cur->value == value) {
 			prev->next = cur->next;
+
 			wFree(cur);
 			list->elemcount--;
 			return;

@@ -127,9 +127,9 @@ int main(int argc, const char * argv[]) {
 
 	printf("\n");
 
-	wMemStats();
-
 	deleteBoard(b);
 	
+	wMemStats();
+
 	return 0;
 }

@@ -340,7 +340,7 @@ void deleteBoard(Board *board) {
 			deleteList(board->cells[row][col].possibleValues);
 		}
 	}
-
+	
 	wFree(board);
 }
 
