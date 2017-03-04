@@ -18,8 +18,8 @@ Board *createBoard(int *initBoard) {
 	for (col = 0; col < 9; col++) {
 		for (row = 0; row < 9; row++) {
 			if (initBoard[rowCol2Index(row, col)] != 0) { // if the current cell has a given value
-				setCell(board, row, col, initBoard[rowCol2Index(row, col)]);
 				board->cells[row][col].possibleValues = NULL;
+				setCell(board, row, col, initBoard[rowCol2Index(row, col)]);
 			} else {
 				board->cells[row][col].value = 0;
 				board->cells[row][col].known = FALSE;
@@ -32,8 +32,13 @@ Board *createBoard(int *initBoard) {
 }
 
 void setCell(Board *board, int row, int col, int value) {
-	board->cells[row][col].value = value;
-	board->cells[row][col].known = TRUE;
+	board->cells[row][col].value = value;	// set the value
+	board->cells[row][col].known = TRUE;	// set to KNOWN
+	
+	if (board->cells[row][col].possibleValues != NULL) {	// if possible list is not null (shouldn't be)
+		deleteList(board->cells[row][col].possibleValues);	// remove possibility list
+		board->cells[row][col].possibleValues = NULL;		// set possible list to null
+	}
 }
 
 int getCellValue(Board *board, int row, int col) {
@@ -181,8 +186,9 @@ Boolean checkGrp(Board *board, int row, int col, int n) {
 			if (i == col && j == row)
 				continue;
 
-			if (board->cells[j][i].value == n)
+			if (board->cells[j][i].value == n) {
 				return FALSE;
+			}
 		}
 	}
 
@@ -195,23 +201,29 @@ Boolean isRowLonePossible(Board *board, int row, int col, int n) {
 	for (c = 0; c < 9; c++) {
 		if (c == col)
 			continue;
-
-		if (board->cells[row][c].possibleValues != NULL && isValueInList(board->cells[row][c].possibleValues, n) == TRUE) {
+		
+		else if (board->cells[row][c].possibleValues != NULL && isValueInList(board->cells[row][c].possibleValues, n) == TRUE) {
+			return FALSE;
+		} else if (board->cells[row][c].value == n) {
 			return FALSE;
 		}
 	}
 
 	return TRUE;
 }
-
+/*
+ * returns true if a value is found only in
+ *  the specified cell in a column
+ */
 Boolean isColLonePossible(Board *board, int row, int col, int n) {
 	int r;
 
 	for (r = 0; r < 9; r++) {
-		if (r == row)
+		if (r == row) {
 			continue;
-
-		if (board->cells[r][col].possibleValues != NULL && isValueInList(board->cells[r][col].possibleValues, n) == TRUE) {
+		} else if (board->cells[r][col].possibleValues != NULL && isValueInList(board->cells[r][col].possibleValues, n) == TRUE) {
+			return FALSE;
+		} else if (board->cells[r][col].value == n) {
 			return FALSE;
 		}
 	}
@@ -291,11 +303,13 @@ Boolean isGrpLonePossible(Board *board, int row, int col, int n) {
 
 	for (i = beginCol; i <= endCol; i++) {
 		for (j = beginRow; j <= endRow; j++) {
-			if (i == col && j == row)
+			if (i == col && j == row) {
 				continue;
-
-			if (board->cells[j][i].possibleValues != NULL && isValueInList(board->cells[j][i].possibleValues, n) == TRUE)
+			} else if (board->cells[j][i].possibleValues != NULL && isValueInList(board->cells[j][i].possibleValues, n) == TRUE) {
 				return FALSE;
+			} else if (board->cells[j][i].value == n) {
+				return FALSE;
+			}
 		}
 	}
 

@@ -16,7 +16,7 @@ typedef struct _Board {
 } Board;
 
 Board *createBoard(int *initBoard);
-void setCell(Board *board, int row, int col, int value); // TODO: set cell possibileValues to null
+void setCell(Board *board, int row, int col, int value);
 int getCellValue(Board *board, int row, int col);
 void addCellPossible(Board *board, int row, int col, int n);
 void removeCellPossible(Board *board, int row, int col, int n);

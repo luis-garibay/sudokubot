@@ -74,13 +74,6 @@ int main(int argc, const char * argv[]) {
 	// check for lone possibilities
 	// then eliminate possibilities
 	while (!isSolved(b)) {
-		printf("#########################\n");
-		printBoard(b);
-		printf("#########################\n");
-		printf("#########################\n");
-		printPossible(b);
-		printf("#########################\n");
-
 		// for each cell
 		//  if there is 1 possibility
 		//   set as cells value

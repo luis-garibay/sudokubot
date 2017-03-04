@@ -118,6 +118,9 @@ void deleteListHelper(Node *n) {
 }
 
 void deleteList(List *list) {
+	if (list == NULL)
+		return;
+
 	deleteListHelper(list->head);
 
 	wFree(list);
