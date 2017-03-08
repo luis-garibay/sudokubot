@@ -17,7 +17,7 @@ The 'board' data structure will be a 2D array of 'cell' structures. Each 'cell' 
 
 -------
 
-A lot of code is dedicated to looping through the board's groups, rows, and columns. So, I think it may make the code a bit simpler if I link cells together. This way the next cell in the row can be retrieved by using something like, "currentCell->nextCellInRow" instead of looping through an array. However, storing all of the extra pointers would take a bit more memory.
+I need a simpler interface to enter initial cell values for the board.
 
 # Program Flow Pseudocode
 ```
